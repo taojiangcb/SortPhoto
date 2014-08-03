@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="100%" height="100%">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<s:VGroup width="100%" height="100%">
+		<s:Group width="100%" height="60">
+			<s:Rect width="100%" height="100%">
+				<s:fill>
+					<s:SolidColor color="0xCCCCCC"/>
+				</s:fill>
+			</s:Rect>
+			<s:VGroup width="100%" height="100%" left="5" right="5" bottom="5" top="5">
+				<s:HGroup width="100%">
+					<s:VGroup width="100%">
+						<s:HGroup width="100%">
+							<s:TextInput prompt="选择输入的目录" editable="false" width="100%" id="txtInport"/>
+							<s:Button label="浏览" id="btnSelectIn"/>
+						</s:HGroup>
+						<s:HGroup width="100%">
+							<s:TextInput prompt="选择一个输出目录" editable="false" width="100%" id="txtOutport"/>
+							<s:Button label="浏览" id="btnSelectout"/>
+						</s:HGroup>
+					</s:VGroup>
+					<s:Button label="保存" width="50" height="50" id="btnSavePath"/>
+					<s:Button label="分析" width="50" height="50" id="btnAnalyzing"/>
+					<s:Button label="导出" width="50" height="50" id="btnOutFile"/>
+				</s:HGroup>
+			</s:VGroup>
+		</s:Group>
+		<s:Group width="100%" height="100%">
+			<s:TextArea width="100%" height="100%" id="txtOutMsg" editable="false" left="5" right="5"/>	
+		</s:Group>
+		<s:Group width="100%" height="30">
+			<s:Rect width="100%" height="100%">
+				<s:fill>
+					<s:SolidColor color="0xCCCCCC"/>
+				</s:fill>
+			</s:Rect>
+			<s:Label paddingLeft="5" paddingRight="5" verticalCenter="0" text="当前文件数量:0" id="stateLabel"/>
+		</s:Group>
+	</s:VGroup>
+</s:Group>
