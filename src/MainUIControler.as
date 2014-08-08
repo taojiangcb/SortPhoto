@@ -22,6 +22,14 @@ package
 			in_out_proxy = new ImportAndOutDirectorProxy();
 		}
 		
+		public override function dispose():void
+		{
+			if(in_out_proxy)
+			{
+				in_out_proxy.dispose();
+				in_out_proxy = null;
+			}
+		}
 		
 		public function get gui():MainPanel
 		{
