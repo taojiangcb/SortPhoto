@@ -5,6 +5,7 @@ package
 	import flash.filesystem.File;
 	
 	import mx.controls.Alert;
+	import mx.utils.StringUtil;
 	
 	import application.AppUI;
 	
@@ -35,6 +36,7 @@ package
 			ui.btnSelectout.addEventListener(MouseEvent.CLICK,outportClickHandler,false,0,true);
 			ui.btnSavePath.addEventListener(MouseEvent.CLICK,savePathClickHandler,false,0,true);
 			ui.btnAnalyzing.addEventListener(MouseEvent.CLICK,anasyslizeHandler,false,0,true);
+			ui.btnOutFile.addEventListener(MouseEvent.CLICK,outFilesClickHandler,false,0,true);
 			
 			var oldOutDirectory:String = LSOManager.get(OUT_DIRECTORY);
 			var tmpFile:File;
@@ -52,6 +54,7 @@ package
 				tmpFile = new File(oldInDirectory);
 				ui.txtInport.text = tmpFile.nativePath;
 			}
+			
 		}
 		
 		private function savePathClickHandler(event:MouseEvent):void
@@ -97,11 +100,40 @@ package
 			var outDir:String = DataModel.OUT_DIRECTORY;
 			if(inDir && inDir.length > 0 && outDir && outDir.length > 0)
 			{
-				var rootFile:File = new File(inDir);
-				DataModel.instance.filterAllFile(rootFile,DataModel.instance.analysizeFiles);
-				var liststr:String = DataModel.instance.analysizeFiles.join("\n");
-				trace(liststr);
+				DataModel.instance.analyziseRoot(new File(inDir));
+				var stateStr:String = "";
+				var ymFiles:Vector.<File>;
+				var strFormat:String = "==={0}===\n{1}\n";
+				var fileUrls:Vector.<String> = new Vector.<String>();
+				var dateKey:String;
+				var i:int = 0;
+				var len:int = 0;
+				var crtFile:File;
+				for(dateKey in DataModel.instance.analysisInfo.sortFileDict)
+				{
+					ymFiles = DataModel.instance.analysisInfo.getSortFielsByKey(dateKey);
+					if(ymFiles)
+					{
+						len = ymFiles.length;
+						for(i = 0; i != len; i++)
+						{
+							crtFile = ymFiles[i];
+							fileUrls.push(crtFile.nativePath);
+						}
+					}
+					ui.txtOutMsg.text += StringUtil.substitute(strFormat,dateKey,fileUrls.join("\n"));
+					
+					stateStr = "文件数量:" + DataModel.instance.analysisInfo.combineFiels.length.toString();
+					stateStr += " 合并文件数量:" + DataModel.instance.analysisInfo.sameFiles.length.toString();
+					
+					ui.stateLabel.text = stateStr;
+				}
 			}
+		}
+		
+		private function outFilesClickHandler(event:MouseEvent):void
+		{
+			DataModel.instance.exportAllFile();
 		}
 		
 		public function dispose():void
@@ -109,6 +141,8 @@ package
 			ui.btnSelectIn.removeEventListener(MouseEvent.CLICK,importClickHandler);
 			ui.btnSelectout.removeEventListener(MouseEvent.CLICK,outportClickHandler);
 			ui.btnSavePath.removeEventListener(MouseEvent.CLICK,savePathClickHandler);
+			ui.btnAnalyzing.removeEventListener(MouseEvent.CLICK,anasyslizeHandler);
+			ui.btnOutFile.removeEventListener(MouseEvent.CLICK,outFilesClickHandler);
 		}
 		
 		private function get ui():MainPanel
